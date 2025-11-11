@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from typing import Optional
 app = FastAPI()
 
 
@@ -8,6 +8,6 @@ async def main():
     return {"message" : "home page"}
 
 
-@app.get("/greet/{name}")
-async def greet(name: str,age : int) -> dict:
+@app.get("/greet")
+async def greet(name: Optional[str] = "user",age : Optional[int] = 0) -> dict:
     return {"message" : f"welcome {name} your age is {age}"}
