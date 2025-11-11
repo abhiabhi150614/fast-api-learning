@@ -1,54 +1,57 @@
-from fastapi import FastAPI, Header
-from typing import Optional
-from pydantic import BaseModel
-app = FastAPI()
-
-
-@app.get('/')
-async def main():
-    return {"message" : "home page"}
-
-
-@app.get("/greet")
-async def greet(name: Optional[str] = "user",age : Optional[int] = 0) -> dict:
-    return {"message" : f"welcome {name} your age is {age}"}
-
-
-class BookCreate(BaseModel):
-    title : str
-    author: str
-
-
-dic = {}
-id = 0
-@app.post('/create-book')
-async def createbook(book_data : BookCreate) -> dict:
-    global id
-    dic[id] = book_data
-    id = id + 1
-    return {
-        "title":book_data.title,
-        "author":book_data.author
-    }
-
-@app.get("/books")
-async def getbooks(id : int):
-    return dic[id]
-
-
-
-@app.get("/get-headers",status_code = 201)
-async def getheaders(
-    accept: Optional[str] =  Header(None),
-    content_type: Optional[str] = Header(None),
-    user_agent: Optional[str] = Header(None),
-    host:Optional[str] = Header(None)
-):
-    request_headers = {}
-    request_headers["Accept"] = accept
-    request_headers["Content-Type"] = content_type
-    request_headers["User-Agent"] = user_agent
-    request_headers["Host"] = host
-
-    return request_headers
-    
+from fastapi import FastAPI
+books = [
+    {
+        "id": 1,
+        "title": "Think Python",
+        "author": "Allen B. Downey",
+        "publisher": "O'Reilly Media",
+        "published_date": "2021-01-01",
+        "page_count": 1234,
+        "language": "English",
+    },
+    {
+        "id": 2,
+        "title": "Django By Example",
+        "author": "Antonio Mele",
+        "publisher": "Packt Publishing Ltd",
+        "published_date": "2022-01-19",
+        "page_count": 1023,
+        "language": "English",
+    },
+    {
+        "id": 3,
+        "title": "The web socket handbook",
+        "author": "Alex Diaconu",
+        "publisher": "Xinyu Wang",
+        "published_date": "2021-01-01",
+        "page_count": 3677,
+        "language": "English",
+    },
+    {
+        "id": 4,
+        "title": "Head first Javascript",
+        "author": "Hellen Smith",
+        "publisher": "Oreilly Media",
+        "published_date": "2021-01-01",
+        "page_count": 540,
+        "language": "English",
+    },
+    {
+        "id": 5,
+        "title": "Algorithms and Data Structures In Python",
+        "author": "Kent Lee",
+        "publisher": "Springer, Inc",
+        "published_date": "2021-01-01",
+        "page_count": 9282,
+        "language": "English",
+    },
+    {
+        "id": 6,
+        "title": "Head First HTML5 Programming",
+        "author": "Eric T Freeman",
+        "publisher": "O'Reilly Media",
+        "published_date": "2011-21-01",
+        "page_count": 3006,
+        "language": "English",
+    },
+]
