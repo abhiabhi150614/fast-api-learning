@@ -19,10 +19,18 @@ class BookCreate(BaseModel):
     author: str
 
 
+dic = {}
+id = 0
 @app.post('/create-book')
-async def createbook(book_data : BookCreate):
+async def createbook(book_data : BookCreate) -> dict:
+    global id
+    dic[id] = book_data
+    id = id + 1
     return {
         "title":book_data.title,
         "author":book_data.author
     }
 
+@app.get("/books")
+async def getbooks(id : int):
+    return dic[id]
