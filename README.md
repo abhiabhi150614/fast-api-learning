@@ -1,1136 +1,427 @@
-# EduAI - AI-Powered Learning & Intelligent Recruitment Platform
+# 🎓 EduAI - Next-Generation AI Learning & Recruitment Ecosystem
 
 <div align="center">
 
 ![Platform](https://img.shields.io/badge/EduAI-Dual%20Platform-blue?style=for-the-badge)
 ![AI](https://img.shields.io/badge/Gemini-2.0%20Flash-green?style=for-the-badge)
-![OAuth](https://img.shields.io/badge/Composio-OAuth-purple?style=for-the-badge)
+![OAuth](https://img.shields.io/badge/Composio-8%20Services-purple?style=for-the-badge)
 ![Voice](https://img.shields.io/badge/Twilio-Voice%20AI-red?style=for-the-badge)
+![Components](https://img.shields.io/badge/React-43%20Components-61DAFB?style=for-the-badge&logo=react)
+![Backend](https://img.shields.io/badge/FastAPI-11%20Modules-009688?style=for-the-badge&logo=fastapi)
 
-**Revolutionary dual-platform combining AI-driven personalized learning with intelligent recruitment**
+**Revolutionary AI-powered dual-platform bridging personalized education with intelligent talent acquisition**
+
+[Architecture](#-system-architecture) • [Features](#-core-capabilities) • [Tech Stack](#-technology-ecosystem) • [Installation](#-quick-start) • [API](#-api-reference)
 
 </div>
 
 ---
 
-## 📊 Platform Architecture
+## 🌟 Platform Overview
+
+EduAI is a comprehensive dual-user ecosystem that revolutionizes both learning and recruitment through advanced AI integration:
+
+- **For Students**: AI-generated personalized learning paths with 30-day monthly structures, adaptive quizzes, voice tutoring, and automated progress tracking
+- **For Recruiters**: Intelligent candidate matching, AI-powered email analysis, automated interview scheduling, and comprehensive talent analytics
+
+**Built in 6 days** | **43 React Components** | **11 Backend Modules** | **15 Database Models** | **8 OAuth Integrations**
+
+---
+
+## 🏛️ System Architecture
+
+### High-Level Architecture
 
 ```mermaid
 graph TB
-    subgraph "Student Platform - 43 Components"
-        A1[AI Learning Plans] --> A2[30-Day Monthly Structure]
-        A2 --> A3[Daily Learning Content]
-        A3 --> A4[AI Quiz System]
-        A4 --> A5[Progress Tracking]
-        A5 --> A6[Voice Tutoring]
-        A6 --> A7[Social Integration]
+    subgraph "Client Layer"
+        WEB[Web Application<br/>React 19.1.0<br/>43 Components]
+        MOBILE[Progressive Web App<br/>Offline Capable]
     end
     
-    subgraph "Recruiter Platform - 25+ Features"
-        B1[AI Candidate Matching] --> B2[Email Analysis]
-        B2 --> B3[Resume Parsing]
-        B3 --> B4[Interview Scheduling]
-        B4 --> B5[Shortlist Management]
-        B5 --> B6[Recruiter AI Assistant]
+    subgraph "API Gateway Layer"
+        FASTAPI[FastAPI Server<br/>11 Route Modules<br/>JWT Auth]
+        FLASK[Flask Call Server<br/>Twilio Webhooks<br/>Voice AI]
     end
     
-    subgraph "AI Core - Gemini 2.0"
-        C1[Function Calling - 8 Tools]
-        C2[Context Management]
-        C3[Content Generation]
-        C4[Quiz Generation]
+    subgraph "AI & Intelligence Layer"
+        GEMINI[Gemini 2.0 Flash<br/>4-Model Fallback<br/>Function Calling]
+        CONTEXT[Context Manager<br/>Session Storage<br/>History Tracking]
+        TOOLS[8 Function Tools<br/>Drive, YouTube, LinkedIn<br/>GitHub, Twitter, Calls]
     end
     
     subgraph "Integration Layer"
-        D1[Composio OAuth]
-        D2[Google Services]
-        D3[Twilio Voice]
-        D4[PostgreSQL]
+        COMPOSIO[Composio OAuth<br/>8 Individual Services<br/>Consistent API]
+        GOOGLE[Google Services<br/>Drive, Gmail, Calendar<br/>Meet, YouTube]
+        TWILIO[Twilio Voice<br/>Speech Recognition<br/>TwiML Responses]
     end
     
-    A1 --> C1
-    A4 --> C4
-    B1 --> C1
-    B2 --> C3
-    A7 --> D1
-    B4 --> D2
-    A6 --> D3
+    subgraph "Data Layer"
+        POSTGRES[(PostgreSQL<br/>15 Models<br/>JSONB Support)]
+        VECTOR[Vector Store<br/>Candidate Embeddings<br/>Similarity Search]
+    end
+    
+    subgraph "Background Services"
+        GITHUB_WORKER[GitHub Worker<br/>Repo Creation<br/>Daily Commits]
+        EMAIL_WORKER[Email Worker<br/>Notifications<br/>HTML Templates]
+        ANALYTICS[Analytics Engine<br/>Progress Tracking<br/>Performance Metrics]
+    end
+    
+    WEB --> FASTAPI
+    MOBILE --> FASTAPI
+    WEB --> FLASK
+    
+    FASTAPI --> GEMINI
+    FASTAPI --> COMPOSIO
+    FASTAPI --> POSTGRES
+    
+    FLASK --> GEMINI
+    FLASK --> TWILIO
+    
+    GEMINI --> CONTEXT
+    GEMINI --> TOOLS
+    
+    COMPOSIO --> GOOGLE
+    
+    TOOLS --> GOOGLE
+    TOOLS --> COMPOSIO
+    
+    FASTAPI --> GITHUB_WORKER
+    FASTAPI --> EMAIL_WORKER
+    FASTAPI --> ANALYTICS
+    
+    GITHUB_WORKER --> COMPOSIO
+    EMAIL_WORKER --> GOOGLE
+    ANALYTICS --> POSTGRES
+    ANALYTICS --> VECTOR
+    
+    style GEMINI fill:#4CAF50
+    style COMPOSIO fill:#9C27B0
+    style POSTGRES fill:#336791
+    style FASTAPI fill:#009688
+    style FLASK fill:#000000
+```
+
+
+### Detailed Component Architecture
+
+```mermaid
+graph LR
+    subgraph "Frontend - 43 Components"
+        subgraph "Student UI - 25 Components"
+            S1[Dashboard & Landing]
+            S2[Auth & Onboarding]
+            S3[Learning Plans & Progress]
+            S4[Quiz System]
+            S5[AI Chatbot]
+            S6[Voice Tutor]
+            S7[Social Connections]
+            S8[Calendar & Notes]
+        end
+        
+        subgraph "Recruiter UI - 18 Components"
+            R1[Dashboard & Analytics]
+            R2[Candidate Management]
+            R3[Job Postings]
+            R4[Email Analysis]
+            R5[Interview Scheduler]
+            R6[AI Assistant]
+            R7[Shortlist Manager]
+        end
+    end
+    
+    subgraph "Backend - 11 Route Modules"
+        B1[auth.py<br/>JWT + OAuth]
+        B2[onboarding.py<br/>Profile Setup]
+        B3[learning_plan.py<br/>AI Plan Generation]
+        B4[subplans.py<br/>Month Management]
+        B5[quiz.py<br/>Quiz Engine]
+        B6[chatbot.py<br/>AI Chat + Tools]
+        B7[call_bot.py<br/>Voice Integration]
+        B8[voice_webhook.py<br/>Twilio Handlers]
+        B9[recruiter.py<br/>Recruitment Suite]
+        B10[recruit.py<br/>Matching Engine]
+        B11[youtube_schedule.py<br/>Video Management]
+    end
+    
+    S1 --> B1
+    S2 --> B2
+    S3 --> B3
+    S3 --> B4
+    S4 --> B5
+    S5 --> B6
+    S6 --> B7
+    S6 --> B8
+    S8 --> B11
+    
+    R1 --> B9
+    R2 --> B9
+    R3 --> B9
+    R4 --> B9
+    R5 --> B9
+    R6 --> B9
+    R7 --> B10
+    
+    style S5 fill:#4CAF50
+    style S6 fill:#FF5722
+    style R6 fill:#2196F3
+    style B6 fill:#4CAF50
+    style B9 fill:#FF9800
+```
+
+
+### Data Flow Architecture
+
+```mermaid
+sequenceDiagram
+    participant Student
+    participant React
+    participant FastAPI
+    participant Gemini
+    participant Composio
+    participant Google
+    participant PostgreSQL
+    
+    Note over Student,PostgreSQL: Learning Plan Generation Flow
+    
+    Student->>React: Request Learning Plan
+    React->>FastAPI: POST /learning-plan/generate
+    FastAPI->>PostgreSQL: Get Onboarding Data
+    PostgreSQL-->>FastAPI: User Profile
+    FastAPI->>Gemini: Generate Plan Structure
+    Gemini-->>FastAPI: 12-36 Months Plan
+    FastAPI->>PostgreSQL: Save Learning Plan
+    FastAPI->>Gemini: Generate Month 1 (30 Days)
+    Gemini-->>FastAPI: Daily Concepts
+    FastAPI->>Gemini: Generate Day 1 Detail
+    Gemini-->>FastAPI: Sections + Resources
+    FastAPI->>Gemini: Generate Day 1 Quiz
+    Gemini-->>FastAPI: 15 Questions
+    FastAPI->>Composio: Create Drive Folders
+    Composio->>Google: EDUAI_NAME_LEARNING_MAIN_PATH
+    Google-->>Composio: Folder Created
+    FastAPI->>PostgreSQL: Save Complete Plan
+    FastAPI-->>React: Learning Plan Ready
+    React-->>Student: Display Plan
+    
+    Note over Student,PostgreSQL: Quiz Submission & Progression Flow
+    
+    Student->>React: Submit Quiz Answers
+    React->>FastAPI: POST /quiz/submit
+    FastAPI->>PostgreSQL: Get Quiz & Submissions
+    FastAPI->>FastAPI: Calculate Score
+    
+    alt Score >= 70%
+        FastAPI->>PostgreSQL: Mark Day Complete
+        FastAPI->>Composio: Send Gmail Notification
+        Composio->>Google: Success Email
+        FastAPI->>PostgreSQL: Check Month Status
+        
+        alt Month Complete
+            FastAPI->>Gemini: Generate Next Month
+            Gemini-->>FastAPI: 30 New Days
+            FastAPI->>PostgreSQL: Activate Next Month
+        end
+        
+        FastAPI-->>React: Success + Next Day
+    else Score < 70%
+        FastAPI->>PostgreSQL: Save Failed Attempt
+        
+        alt Attempts >= 2
+            FastAPI->>Gemini: Regenerate Content
+            Gemini-->>FastAPI: Enhanced Material
+            FastAPI->>PostgreSQL: Update Day Detail
+        end
+        
+        FastAPI-->>React: Retry Required
+    end
+    
+    React-->>Student: Show Results
+```
+
+
+### AI Integration Architecture
+
+```mermaid
+graph TB
+    subgraph "AI Function Calling System"
+        USER[User Query]
+        CHATBOT[AI Chatbot<br/>Context-Aware]
+        GEMINI[Gemini 2.0 Flash<br/>Function Calling API]
+        
+        subgraph "8 Function Tools"
+            T1[get_drive_notes<br/>Retrieve Notes]
+            T2[update_drive_notes<br/>Save Content]
+            T3[search_youtube_videos<br/>Find Videos]
+            T4[create_youtube_playlist<br/>New Playlist]
+            T5[add_video_to_playlist<br/>Add Video]
+            T6[initiate_call<br/>Voice Call]
+            T7[create_linkedin_post<br/>Social Post]
+            T8[context_query<br/>Learning Position]
+        end
+        
+        subgraph "Service Integrations"
+            DRIVE[Google Drive API]
+            YOUTUBE[YouTube Data API]
+            LINKEDIN[LinkedIn via Composio]
+            TWILIO[Twilio Voice API]
+        end
+    end
+    
+    USER --> CHATBOT
+    CHATBOT --> GEMINI
+    GEMINI --> T1
+    GEMINI --> T2
+    GEMINI --> T3
+    GEMINI --> T4
+    GEMINI --> T5
+    GEMINI --> T6
+    GEMINI --> T7
+    GEMINI --> T8
+    
+    T1 --> DRIVE
+    T2 --> DRIVE
+    T3 --> YOUTUBE
+    T4 --> YOUTUBE
+    T5 --> YOUTUBE
+    T6 --> TWILIO
+    T7 --> LINKEDIN
+    
+    DRIVE --> GEMINI
+    YOUTUBE --> GEMINI
+    LINKEDIN --> GEMINI
+    TWILIO --> GEMINI
+    
+    GEMINI --> CHATBOT
+    CHATBOT --> USER
+    
+    style GEMINI fill:#4CAF50
+    style CHATBOT fill:#2196F3
+    style USER fill:#FF9800
+```
+
+
+### Recruiter Intelligence Architecture
+
+```mermaid
+graph TB
+    subgraph "Recruiter Platform Intelligence"
+        RECRUITER[Recruiter Dashboard]
+        
+        subgraph "AI Matching Engine"
+            MATCH[Candidate Matcher<br/>Multi-Factor Analysis]
+            SCORE[Scoring Algorithm<br/>0-100 Scale]
+            EXPLAIN[Match Explanation<br/>AI Generated]
+        end
+        
+        subgraph "Email Intelligence"
+            FETCH[Gmail Fetcher<br/>Job Emails]
+            PARSE[PDF Parser<br/>Resume Extraction]
+            SUMMARIZE[AI Summarizer<br/>Structured Format]
+            SKILLS[Skill Extractor<br/>NLP Based]
+        end
+        
+        subgraph "Interview Automation"
+            CALENDAR[Calendar Checker<br/>Availability]
+            MEET[Google Meet<br/>Link Generator]
+            INVITE[Email Inviter<br/>Auto Send]
+            TRACK[Lifecycle Tracker<br/>Status Management]
+        end
+        
+        subgraph "Data Sources"
+            STUDENTS[(Student Profiles<br/>Learning Data)]
+            QUIZZES[(Quiz Scores<br/>Performance)]
+            SOCIAL[(Social Connections<br/>LinkedIn, GitHub)]
+            EMAILS[(Email Applications<br/>Resumes)]
+        end
+    end
+    
+    RECRUITER --> MATCH
+    RECRUITER --> FETCH
+    RECRUITER --> CALENDAR
+    
+    MATCH --> STUDENTS
+    MATCH --> QUIZZES
+    MATCH --> SOCIAL
+    MATCH --> SCORE
+    SCORE --> EXPLAIN
+    
+    FETCH --> EMAILS
+    FETCH --> PARSE
+    PARSE --> SUMMARIZE
+    SUMMARIZE --> SKILLS
+    
+    CALENDAR --> MEET
+    MEET --> INVITE
+    INVITE --> TRACK
+    
+    EXPLAIN --> RECRUITER
+    SKILLS --> RECRUITER
+    TRACK --> RECRUITER
+    
+    style MATCH fill:#FF5722
+    style SUMMARIZE fill:#4CAF50
+    style MEET fill:#2196F3
 ```
 
 ---
 
-## 🎯 Core Features
+## 🎯 Core Capabilities
 
-### 🎓 Student Platform (43 React Components)
+### 📚 Student Learning Platform
 
-#### 1. AI-Powered Learning Plans
-- **Personalized Curriculum Generation**: Gemini 2.0 creates custom learning paths based on career goals, current skills, and time commitment
-- **Multi-Year Planning**: Supports 1-3 year learning journeys with 12 months per year
-- **30-Day Monthly Structure**: Each month contains 30 detailed daily learning objectives
-- **Sequential Progression**: Days unlock only after completing previous day's quiz (70% minimum)
-- **Adaptive Content**: AI generates day-specific study materials with sections, resources, and checklists
+#### 1. AI-Powered Personalized Learning Plans
+
+**Intelligent Curriculum Generation:**
+- Gemini 2.0 analyzes career goals, current skills, education level, and time commitment
+- Generates 1-3 year learning journeys (12-36 months)
+- Each month contains 30 detailed daily learning objectives
+- Sequential progression with 70% quiz pass requirement
+- Adaptive content that evolves based on performance
 
 **Technical Implementation:**
-- `_generate_days_for_month_via_ai()`: Generates 30 days with concepts, time estimates, and learning objectives
-- `_generate_day_detail_via_ai()`: Creates comprehensive study plans with sections, resources, and checklists
-- Auto-generates quizzes for each day with 15 AI-generated questions
-- Tracks completion status, quiz scores, and learning progress in PostgreSQL
-
-#### 2. Interactive AI Chatbot with Function Calling
-**8 Integrated Tools:**
-1. **get_drive_notes**: Retrieves learning notes from Google Drive
-2. **update_drive_notes**: Saves content to Google Drive
-3. **search_youtube_videos**: Finds educational videos
-4. **create_youtube_playlist**: Creates YouTube playlists
-5. **add_video_to_playlist**: Adds videos to playlists
-6. **initiate_call**: Triggers Twilio voice calls
-7. **create_linkedin_post**: Publishes to LinkedIn
-8. **Context-aware responses**: Knows exact learning position (month, day, topic)
-
-**Features:**
-- Real-time context awareness of user's current learning position
-- Markdown formatting with code blocks, lists, and links
-- Session management with conversation history
-- Tool execution with immediate feedback
-- Formatted responses with proper styling
-
-#### 3. Comprehensive Quiz System
-- **AI-Generated Questions**: 15 questions per day covering understanding, application, and critical thinking
-- **Adaptive Difficulty**: Questions tailored to day's learning content
-- **Detailed Explanations**: Each answer includes comprehensive explanation
-- **Progress Gating**: Must pass (70%+) to unlock next day
-- **Retry Mechanism**: Regenerates quiz with focus on problem areas after 2 failed attempts
-- **Performance Tracking**: Stores all attempts with detailed question results
-- **Email Notifications**: Sends quiz results via Gmail API
-
-**Database Schema:**
 ```python
-class Quiz:
-    questions = JSONB  # [{question, options, correct_index, explanation}]
-    required_score = Integer  # Default 70%
+# Plan Generation Pipeline
+def generate_learning_plan(user_id):
+    onboarding = get_onboarding_data(user_id)
+    total_years = decide_years(onboarding.grade)  # 1-3 years
     
-class QuizSubmission:
-    answers = JSONB
-    question_results = JSONB  # Detailed per-question analysis
-    score = Integer
-    passed = Integer
-    attempt_number = Integer
+    # AI generates month structure
+    plan_structure = gemini.generate_content(
+        prompt=build_plan_prompt(onboarding, total_years)
+    )
+    
+    # Generate 30 days for first month
+    month_1_days = _generate_days_for_month_via_ai(
+        month=plan_structure.months[0],
+        onboarding=onboarding
+    )
+    
+    # Generate detailed content for day 1
+    day_1_detail = _generate_day_detail_via_ai(
+        month=plan_structure.months[0],
+        day=month_1_days[0],
+        onboarding=onboarding
+    )
+    
+    # Auto-generate quiz for day 1
+    day_1_quiz = _generate_quiz_via_ai(
+        month=plan_structure.months[0],
+        day=month_1_days[0],
+        onboarding=onboarding,
+        num_questions=15
+    )
+    
+    # Create Google Drive folder structure
+    create_drive_structure(user_id, onboarding.name)
+    
+    return complete_plan
 ```
 
-
-#### 4. Google Services Integration (via Composio)
-**Automated Learning Infrastructure:**
-- **Google Drive**: Auto-creates folder structure `EDUAI_NAME_LEARNING_MAIN_PATH/MONTH_X/DAY_Y_NOTES.txt`
-- **Gmail**: Sends quiz completion and progress notifications with HTML templates
-- **Calendar**: Creates study session events with time estimates
-- **YouTube**: Video search, playlist creation, and video management
-
-**Implementation:**
-```python
-# Auto-creates on day start
-ensure_drive_folder(user_id, f"EDUAI_{name}_LEARNING_MAIN_PATH")
-create_drive_file(user_id, f"DAY_{day}_NOTES.txt", content)
-create_calendar_event(user_id, f"Study: Day {day}", datetime, duration)
-```
-
-#### 5. Social Media Integration (Composio OAuth)
-**Individual OAuth Connections:**
-- **LinkedIn**: Profile connection, AI-generated professional posts about learning progress
-- **GitHub**: Repository creation (`EDUAI_NAME_LEARNING_JOURNEY`), daily notes commits
-- **Twitter**: Profile integration, content sharing
-
-**Background Tasks:**
-```python
-# GitHub integration runs in background thread
-threading.Thread(target=_github_background_task, daemon=True).start()
-composio_auth.create_learning_repo(user_email, user_name)
-composio_auth.add_daily_notes_to_github(user_email, user_name, notes, day, month, concept)
-```
-
-#### 6. Voice Tutoring System (Twilio + Flask)
-**Separate Call Server (`call_server.py`):**
-- Flask server running on ngrok for Twilio webhooks
-- Context-aware AI responses using Gemini 2.0
-- Conversation management with history tracking
-- Smart response generation based on learning context
-- Handles speech input with confidence scoring
-
-**Features:**
-- Parses learning context from URL parameters
-- Maintains conversation history (last 16 exchanges)
-- Quick responses for common phrases
-- Fallback responses when AI unavailable
-- Call logging and analytics
-
-**Usage:**
-```bash
-python call_server.py
-ngrok http 5000
-# Configure Twilio webhook to ngrok URL
-```
-
-### 💼 Recruiter Platform (25+ Features)
-
-#### 1. AI-Powered Candidate Matching
-**Multi-Factor Analysis:**
-- Career goals alignment with job requirements
-- Skills matching (current + learning progress)
-- Quiz performance and learning commitment
-- Social connections (LinkedIn, GitHub, Twitter)
-- GitHub programming languages from repositories
-
-**Scoring Algorithm:**
-```python
-# AI evaluates 6 key questions:
-1. Career goals alignment
-2. Skills match
-3. Learning progress commitment
-4. Realistic job performance capability
-5. Education/experience level fit
-6. GitHub practical experience
-
-# Score ranges:
-85-100: Perfect fit
-70-84: Very good fit
-55-69: Good fit
-40-54: Moderate fit
-25-39: Poor fit
-0-24: No fit
-```
-
-
-#### 2. Advanced Email Application Management
-**Gmail Integration Features:**
-- Fetches job-related emails with enhanced filtering
-- AI summarization of email content
-- PDF resume parsing and skill extraction
-- Automatic candidate profile creation
-- Priority scoring based on keywords and attachments
-- Bulk email processing
-
-**Email Analysis:**
-```python
-# Priority calculation
-score += 10 for urgent keywords
-score += 20 for PDF attachments
-score += 15 for recent emails (24h)
-score += 5 for technical keywords
-
-# AI summarization with structured format
-summary = email_service.summarize_email_with_ai(content)
-skills = email_service.extract_candidate_skills(content)
-```
-
-#### 3. Interview Management System
-**Google Meet Integration:**
-- Calendar availability checking
-- Automated interview scheduling
-- Google Meet link generation
-- Email invitations to candidates
-- Interview rescheduling and cancellation
-- Interview lifecycle tracking
-
-**Database Schema:**
-```python
-class Shortlist:
-    status = String  # shortlisted, interview_scheduled, interviewed, hired, rejected
-    match_score = Integer
-    notes = Text
-    source = String  # platform, email
-```
-
-#### 4. Advanced Recruiter AI Assistant
-**Comprehensive Context:**
-- Access to all student profiles with learning data
-- Quiz scores and performance metrics
-- Social connections status
-- Recent email applications
-- Job postings and shortlists
-
-**Capabilities:**
-- Natural language candidate search
-- Email content analysis
-- Recruitment strategy recommendations
-- Data-driven insights
-- Real-time analytics
-
----
-
-## 🏗️ Technical Architecture
-
-### Backend (FastAPI)
-
-**10 Route Modules:**
-1. `auth.py`: JWT authentication, Google OAuth callback
-2. `onboarding.py`: User profile setup
-3. `learning_plan.py`: Plan generation, day management
-4. `subplans.py`: Month-level operations
-5. `quiz.py`: Quiz generation, submission, regeneration
-6. `chatbot.py`: AI chatbot with function calling
-7. `call_bot.py`: Twilio voice integration
-8. `voice_webhook.py`: Twilio webhook handlers
-9. `recruiter.py`: All recruiter features (1000+ lines)
-10. `youtube_schedule.py`: YouTube integration
-
-**15 Database Models:**
-1. User (with OAuth fields)
-2. Onboarding
-3. LearningPlan (JSONB structure)
-4. LearningPath (tracking)
-5. Quiz
-6. QuizSubmission
-7. Job
-8. EmailApplication
-9. Shortlist
-10. CandidateVector
-11. StudentProfileSummary
-12. RecruiterInteraction
-13. YouTubeSchedule
-14. OnboardingData
-15. LearningPathTracking
-
-
-**Core Services:**
-- `gemini_ai.py`: Gemini 2.0 Flash with 4-model fallback system
-- `composio_service.py`: Individual OAuth for 8 services
-- `chatbot_tools.py`: 8 function calling tools
-- `google_services.py`: Drive, Gmail, Calendar operations
-- `youtube_services.py`: Video search, playlist management
-- `call_bot.py`: Twilio voice integration
-- `ai_matching.py`: Candidate-job matching algorithm
-- `email_service.py`: Email parsing and analysis
-- `google_meet_service.py`: Interview scheduling
-- `embeddings.py`: Vector similarity for candidates
-- `summary_service.py`: Profile summarization
-- `learning_path_service.py`: Progress tracking
-
-### Frontend (React 19.1.0)
-
-**43 Components:**
-
-**Student Components (25):**
-- Dashboard, LandingPage, Login, Register
-- OnboardingFlow, Profile, Settings
-- LearningPlans, Subplans, Progress
-- Quizzes, QuizDashboard
-- Chatbot (with markdown rendering)
-- VoiceTutor, YouTubeLearning
-- Notes, Calendar, Community
-- SocialConnections, Resume
-- GoogleCallback, Layout, Sidebar
-- Revolving (3D animations)
-
-**Recruiter Components (18):**
-- RecruiterDashboard, RecruiterLayout
-- RecruiterLogin, RecruiterProfile
-- RecruiterCandidates, RecruiterStudentProfile
-- RecruiterJobPost, RecruiterJobPosting
-- RecruiterJobs, JobListings, JobDetailsPage
-- RecruiterEmailAnalysis
-- RecruiterInterviews, InterviewScheduler
-- RecruiterChatbot
-- RecruiterSettings, RecruiterAuthCheck
-- RecruiterGoogleAuth, RecruiterOAuthCallback
-- CandidateDetail
-
-**Key Libraries:**
-- styled-components: Component styling
-- framer-motion: Animations
-- react-router-dom: Navigation
-- react-icons: Icon library
-- react-big-calendar: Calendar views
-- @react-three/fiber: 3D graphics
-
----
-
-## 🔧 Installation & Setup
-
-### Prerequisites
-```bash
-Python 3.8+
-Node.js 16+
-PostgreSQL 12+
-Twilio Account (for voice features)
-```
-
-### Backend Setup
-```bash
-cd learning/fastapi-backend
-python -m venv venv
-venv\Scripts\activate  # Windows
-pip install -r requirements.txt
-
-# Database setup
-alembic upgrade head
-
-# Start server
-uvicorn app.main:app --reload --port 8000
-```
-
-### Frontend Setup
-```bash
-cd learning/learning-ui
-npm install
-npm start
-```
-
-### Call Server Setup (Separate)
-```bash
-cd learning
-python call_server.py
-
-# In another terminal
-ngrok http 5000
-# Configure Twilio webhook to ngrok URL
-```
-
-### Environment Variables
-```env
-# Database
-DATABASE_URL=postgresql://user:pass@localhost:5432/eduai
-
-# AI
-GEMINI_API_KEY=your_key
-COMPOSIO_API_KEY=your_key
-
-# Twilio (Optional)
-TWILIO_ACCOUNT_SID=your_sid
-TWILIO_AUTH_TOKEN=your_token
-TWILIO_PHONE_NUMBER=your_number
-```
-
-
----
-
-## 📡 API Documentation
-
-### Student APIs
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/auth/google/callback` | Google OAuth authentication |
-| GET | `/me` | Get current user info |
-| POST | `/onboarding` | Submit onboarding data |
-| POST | `/learning-plan/generate` | Generate AI learning plan |
-| GET | `/learning-plan` | Get user's learning plan |
-| POST | `/learning-plan/{id}/start-month/{month}` | Start specific month |
-| GET | `/learning-plan/{id}/month/{month}/days` | Get month's 30 days |
-| POST | `/learning-plan/{id}/month/{month}/day/{day}/start` | Start day (generates detail) |
-| POST | `/learning-plan/{id}/complete-day/{month}/{day}` | Complete day with score |
-| POST | `/quiz/{plan}/{month}/{day}/generate` | Generate quiz |
-| GET | `/quiz/{plan}/{month}/{day}` | Get quiz questions |
-| POST | `/quiz/{plan}/{month}/{day}/submit` | Submit quiz answers |
-| POST | `/quiz/{plan}/{month}/{day}/regenerate` | Regenerate quiz for retry |
-| POST | `/chat` | AI chatbot with function calling |
-| POST | `/chat/clear` | Clear chat session |
-| POST | `/call/initiate` | Initiate Twilio voice call |
-| POST | `/auth/linkedin/connect` | LinkedIn OAuth |
-| POST | `/auth/github/connect` | GitHub OAuth |
-| POST | `/auth/twitter/connect` | Twitter OAuth |
-| GET | `/profile/social-connections` | Get social connection status |
-
-### Recruiter APIs
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/recruiter/register` | Register recruiter account |
-| POST | `/recruiter/login` | Login with email/password |
-| GET | `/recruiter/dashboard` | Dashboard with categorized students |
-| GET | `/recruiter/students` | All students with full profiles |
-| POST | `/recruiter/match` | AI candidate matching |
-| POST | `/recruiter/jobs` | Create job posting |
-| GET | `/recruiter/jobs` | Get all job postings |
-| GET | `/recruiter/jobs/{id}/matches` | Get AI matches for job |
-| POST | `/recruiter/shortlist` | Shortlist candidate |
-| GET | `/recruiter/jobs/{id}/shortlisted` | Get shortlisted candidates |
-| GET | `/recruiter/emails/recent` | Recent job application emails |
-| POST | `/recruiter/emails/{id}/summarize` | AI email summarization |
-| POST | `/recruiter/emails/{id}/add-to-shortlist` | Add email candidate to shortlist |
-| POST | `/recruiter/interviews/schedule` | Schedule Google Meet interview |
-| GET | `/recruiter/interviews/upcoming` | Get upcoming interviews |
-| POST | `/recruiter/chat` | Recruiter AI assistant |
-| GET | `/recruiter/analytics` | Recruitment analytics |
-
----
-
-## 🎨 Key Features Breakdown
-
-### Learning Plan Generation Flow
-```mermaid
-sequenceDiagram
-    Student->>Backend: POST /learning-plan/generate
-    Backend->>Gemini AI: Generate plan structure
-    Gemini AI-->>Backend: 12-36 months structure
-    Backend->>Database: Save LearningPlan
-    Backend->>Gemini AI: Generate Month 1 days
-    Gemini AI-->>Backend: 30 days with concepts
-    Backend->>Gemini AI: Generate Day 1 detail
-    Gemini AI-->>Backend: Sections, resources, checklist
-    Backend->>Gemini AI: Generate Day 1 quiz
-    Gemini AI-->>Backend: 15 questions
-    Backend->>Google Drive: Create folder structure
-    Backend->>Database: Save all data
-    Backend-->>Student: Complete learning plan
-```
-
-### Quiz Submission Flow
-```mermaid
-sequenceDiagram
-    Student->>Backend: POST /quiz/submit
-    Backend->>Database: Check previous attempts
-    Backend->>Backend: Calculate score
-    alt Score >= 70%
-        Backend->>Database: Mark day completed
-        Backend->>Gmail: Send success email
-        Backend->>Backend: Check if month complete
-        alt Month complete
-            Backend->>Gemini AI: Generate next month days
-            Backend->>Database: Activate next month
-        end
-        Backend-->>Student: Success + next day
-    else Score < 70%
-        Backend->>Database: Save failed attempt
-        alt Attempts >= 2
-            Backend->>Gemini AI: Regenerate day content
-            Backend->>Database: Update day detail
-        end
-        Backend-->>Student: Retry required
-    end
-```
-
-
-### AI Candidate Matching Flow
-```mermaid
-sequenceDiagram
-    Recruiter->>Backend: POST /recruiter/match
-    Backend->>Database: Get all students
-    loop For each student
-        Backend->>Database: Get profile, quiz scores, learning progress
-        Backend->>Gemini AI: Analyze match
-        Gemini AI-->>Backend: Score (0-100) + explanation
-        Backend->>Backend: Add to matches list
-    end
-    Backend->>Backend: Sort by score
-    Backend-->>Recruiter: Top 25 matches with details
-```
-
----
-
-## 💡 Innovation Highlights
-
-### 1. Composio Individual OAuth Architecture
-**Revolutionary Approach**: Instead of unified OAuth packages, uses individual Composio connections for each service:
-- Gmail, Drive, Calendar, YouTube, Meet: Separate OAuth flows
-- LinkedIn, GitHub, Twitter: Individual connections
-- Consistent API responses across all services
-- Built-in error handling and retry mechanisms
-- AI-enhanced operations with function calling
-
-### 2. Context-Aware AI Integration
-**Deep Platform Integration:**
-- AI knows user's exact position (month, day, topic)
-- Generates content specific to learning context
-- Adapts responses based on progress
-- Function calling with 8 integrated tools
-- Real-time conversation management
-
-### 3. Sequential Learning Progression
-**Enforced Learning Path:**
-- Days unlock only after passing previous quiz
-- Minimum 70% score required
-- Auto-regenerates content after 2 failed attempts
-- Tracks all attempts with detailed analytics
-- Email notifications for progress
-
-### 4. Voice-Enabled Learning (Separate Server)
-**Twilio + Flask + Gemini:**
-- Separate call server with ngrok tunneling
-- Context-aware voice responses
-- Conversation history management
-- Smart fallback responses
-- Call logging and analytics
-
-### 5. Intelligent Email Processing
-**AI-Powered Recruitment:**
-- Gmail integration with job email filtering
-- PDF resume parsing
-- AI summarization with structured format
-- Automatic candidate profile creation
-- Priority scoring algorithm
-
-### 6. Comprehensive Quiz System
-**Adaptive Assessment:**
-- 15 AI-generated questions per day
-- Questions specific to day's learning content
-- Detailed explanations for each answer
-- Regeneration with problem area focus
-- Performance tracking across attempts
-
----
-
-## 📊 Database Schema
-
-### Core Tables
-
-**users**
-- OAuth fields (google_id, access_token, refresh_token)
-- Social connections (linkedin_connection_id, github_connection_id, twitter_connection_id)
-- Learning position (current_plan_id, current_month_index, current_day)
-- User type (student/recruiter)
-
-**learning_plans**
-- JSONB structure with months array
-- Each month: {index, title, goals, topics, status, days, days_generated}
-- Each day: {day, concept, time_estimate, quiz_id, completed, detail}
-
-**quizzes**
-- JSONB questions array
-- Each question: {question, options, correct_index, explanation}
-
-**quiz_submissions**
-- JSONB answers and question_results
-- Detailed per-question analysis
-- Attempt tracking
-
-**jobs**
-- Job postings by recruiters
-- Requirements, location, salary
-
-**email_applications**
-- Job application emails
-- Attachments, priority score
-- Processing status
-
-**shortlists**
-- Candidate shortlisting
-- Match scores, notes
-- Status tracking (shortlisted, interview_scheduled, hired, rejected)
-
-
----
-
-## 🔥 Technical Metrics
-
-| Category | Metric | Count |
-|----------|--------|-------|
-| **Frontend** | React Components | 43 |
-| | Student Components | 25 |
-| | Recruiter Components | 18 |
-| | React Version | 19.1.0 |
-| **Backend** | Route Modules | 10 |
-| | Database Models | 15 |
-| | Core Services | 12 |
-| | Lines in recruiter.py | 1000+ |
-| **AI** | Gemini Models | 4 (fallback) |
-| | Function Tools | 8 |
-| | Context Awareness | Real-time |
-| **Integration** | OAuth Services | 8 (individual) |
-| | Google APIs | 5 |
-| | Social Platforms | 3 |
-| **Database** | Tables | 15+ |
-| | JSONB Fields | 5 |
-| | Relationships | Complex |
-
----
-
-## 🚀 Deployment Architecture
-
-### Production Setup
-
-**Backend (FastAPI)**
-```bash
-# Production server
-gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
-```
-
-**Frontend (React)**
-```bash
-npm run build
-# Serve build folder with nginx or similar
-```
-
-**Call Server (Flask)**
-```bash
-# Run on separate server
-python call_server.py
-# Use ngrok or configure domain for Twilio webhooks
-```
-
-**Database (PostgreSQL)**
-```bash
-# Production database with connection pooling
-# Alembic migrations for schema updates
-alembic upgrade head
-```
-
-### Environment Configuration
-
-**Development:**
-- Backend: http://localhost:8000
-- Frontend: http://localhost:3000
-- Call Server: http://localhost:5000 (ngrok)
-
-**Production:**
-- Backend: https://api.eduai.com
-- Frontend: https://eduai.com
-- Call Server: https://voice.eduai.com
-
----
-
-## 📈 Performance Optimizations
-
-### Backend
-- **Database**: Connection pooling, indexed queries
-- **AI**: 4-model fallback system for reliability
-- **Caching**: Session management for OAuth tokens
-- **Background Tasks**: Threading for GitHub operations, email sending
-
-### Frontend
-- **Code Splitting**: React lazy loading
-- **Memoization**: React.memo for expensive components
-- **Optimized Rendering**: Proper key usage in lists
-- **API Calls**: Debouncing and request cancellation
-
-### AI Integration
-- **Context Management**: Efficient session storage
-- **Token Optimization**: Minimal prompts with maximum context
-- **Fallback System**: Graceful degradation when AI unavailable
-- **Response Formatting**: Clean markdown parsing
-
----
-
-## 🎯 Use Cases
-
-### For Students
-1. **Career Transition**: Generate 2-year plan to switch from marketing to AI engineering
-2. **Skill Enhancement**: 1-year plan to master full-stack development
-3. **Academic Support**: Structured learning for computer science students
-4. **Self-Paced Learning**: Flexible daily time commitments (30min - 3hrs)
-
-### For Recruiters
-1. **Talent Discovery**: Find candidates actively learning relevant skills
-2. **Skill Verification**: Check quiz scores and learning progress
-3. **Cultural Fit**: Analyze career goals and learning commitment
-4. **Pipeline Building**: Track candidates through learning journey
-
----
-
-## 🛠️ Development Tools
-
-### Backend Development
-```bash
-# Run with auto-reload
-uvicorn app.main:app --reload
-
-# Database migrations
-alembic revision --autogenerate -m "description"
-alembic upgrade head
-
-# Testing
-pytest tests/
-```
-
-### Frontend Development
-```bash
-# Development server
-npm start
-
-# Build for production
-npm run build
-
-# Run tests
-npm test
-```
-
-### Call Server Development
-```bash
-# Run Flask server
-python call_server.py
-
-# Expose with ngrok
-ngrok http 5000
-
-# Test Twilio webhooks
-curl -X POST http://localhost:5000/voice
-```
-
-
----
-
-## 🎓 Learning Plan Structure
-
-### Plan Generation
-```json
-{
-  "title": "AI Engineering Career Path",
-  "total_years": 2,
-  "months": [
-    {
-      "index": 1,
-      "title": "Python Fundamentals",
-      "goals": ["Master Python basics", "Understand OOP", "Build projects"],
-      "topics": ["Variables", "Functions", "Classes", "Modules"],
-      "status": "active",
-      "days_generated": true,
-      "days": [
-        {
-          "day": 1,
-          "concept": "Python Variables and Data Types",
-          "time_estimate": 60,
-          "quiz_id": 123,
-          "quiz_min_score": 70,
-          "completed": false,
-          "detail": {
-            "overview": "Comprehensive introduction to Python variables...",
-            "sections": [
-              {
-                "title": "Theory and Concepts",
-                "minutes": 25,
-                "steps": ["Read documentation", "Take notes"],
-                "focus_areas": ["Variable types", "Type conversion"]
-              }
-            ],
-            "resources": [
-              {"type": "documentation", "title": "Python Docs"}
-            ],
-            "checklist": ["Complete reading", "Practice exercises"],
-            "learning_objectives": ["Understand variables", "Use data types"]
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Day Detail Structure
-- **Overview**: Comprehensive description of day's learning
-- **Sections**: Time-boxed study segments with steps
-- **Resources**: Documentation, videos, articles
+**Day Detail Structure:**
+- **Overview**: Comprehensive description of learning objectives
+- **Sections**: Time-boxed study segments (Theory, Practice, Review)
+- **Resources**: Curated documentation, videos, articles
 - **Checklist**: Concrete tasks to complete
-- **Learning Objectives**: Specific outcomes
+- **Learning Objectives**: Specific measurable outcomes
 
----
-
-## 🤖 AI Function Calling
-
-### Tool Execution Flow
-```python
-# Chatbot detects tool need
-if "notes" in user_message:
-    tool_name = "get_drive_notes"
-    parameters = {"month_index": 1, "day": 5}
-    
-# Execute tool
-result = chatbot_tools.execute_tool(tool_name, parameters)
-
-# AI generates response with result
-response = gemini.generate_content(
-    f"User asked: {user_message}\nTool result: {result}\nRespond naturally"
-)
-```
-
-### Available Tools
-1. **get_drive_notes**: Retrieves notes from Google Drive
-2. **update_drive_notes**: Saves content to Drive
-3. **search_youtube_videos**: Finds educational videos
-4. **create_youtube_playlist**: Creates playlists
-5. **add_video_to_playlist**: Adds videos
-6. **initiate_call**: Triggers voice call
-7. **create_linkedin_post**: Publishes to LinkedIn
-8. **Context queries**: Answers about learning position
-
----
-
-## 📞 Voice Tutoring System
-
-### Call Server Architecture
-```python
-# Flask server with Twilio integration
-@app.route("/voice", methods=["POST"])
-def voice():
-    # Get call context from URL parameters
-    context = request.args.get('context')
-    
-    # Parse learning position
-    month, day, topic = parse_context(context)
-    
-    # Generate AI response
-    response = smart_ai_response(user_speech, context)
-    
-    # Return TwiML
-    return VoiceResponse with AI response
-```
-
-### Context-Aware Responses
-- Knows current learning month and day
-- References specific topics being studied
-- Provides encouragement based on progress
-- Answers questions about learning plan
-
-### Conversation Management
-```python
-class ConversationManager:
-    def __init__(self, call_sid, context):
-        self.history = []  # Last 16 exchanges
-        self.response_count = 0
-        self.user_inputs = []
-    
-    def add_exchange(self, user_input, ai_response):
-        self.history.append(f"User: {user_input}")
-        self.history.append(f"AI: {ai_response}")
-```
-
----
-
-## 🎯 Recruiter Features Deep Dive
-
-### AI Matching Algorithm
-```python
-def calculate_match(job, student):
-    # Build comprehensive profile
-    profile = {
-        "career_goals": student.onboarding.career_goals,
-        "skills": student.onboarding.current_skills,
-        "learning_progress": calculate_progress(student),
-        "quiz_performance": average_quiz_score(student),
-        "social_presence": count_connections(student),
-        "github_languages": extract_languages(student.github_data)
-    }
-    
-    # AI evaluation
-    prompt = f"""
-    Evaluate match between:
-    Job: {job.description}
-    Candidate: {profile}
-    
-    Score 0-100 based on:
-    1. Career goals alignment
-    2. Skills match
-    3. Learning commitment
-    4. Realistic job performance
-    5. Experience level fit
-    6. Practical experience
-    """
-    
-    score = gemini.generate_content(prompt)
-    return score, explanation
-```
-
-### Email Analysis
-```python
-def analyze_email(email_content):
-    # AI summarization
-    summary = gemini.generate_content(f"""
-    Analyze this job application:
-    {email_content}
-    
-    Provide:
-    - Candidate name and contact
-    - Experience level
-    - Technical skills (list)
-    - Key highlights
-    - Recommendation
-    """)
-    
-    # Extract skills
-    skills = extract_skills(email_content)
-    
-    # Parse PDF attachments
-    if has_pdf_attachment:
-        resume_text = parse_pdf(attachment)
-        skills.extend(extract_skills(resume_text))
-    
-    return summary, skills
-```
-
-
----
-
-## 🔐 Security Features
-
-### Authentication
-- JWT token-based authentication
-- Google OAuth 2.0 integration
-- Token refresh mechanism
-- Secure password hashing (bcrypt)
-
-### Authorization
-- Role-based access (student/recruiter)
-- Route-level protection
-- User-specific data isolation
-- OAuth scope management
-
-### Data Protection
-- Encrypted OAuth tokens
-- Secure database connections
-- Environment variable configuration
-- CORS protection
-
----
-
-## 📚 Dependencies
-
-### Backend (requirements.txt)
-```
-fastapi
-uvicorn
-sqlalchemy
-psycopg2-binary
-alembic
-google-generativeai
-google-api-python-client
-google-auth
-google-auth-oauthlib
-composio-core
-twilio
-python-jose
-passlib
-bcrypt
-pydantic
-pydantic-settings
-python-dotenv
-requests
-langchain
-langchain-google-genai
-PyPDF2
-```
-
-### Frontend (package.json)
-```json
-{
-  "react": "^19.1.0",
-  "react-dom": "^19.1.0",
-  "react-router-dom": "^6.30.1",
-  "styled-components": "^6.1.19",
-  "framer-motion": "^12.23.12",
-  "react-icons": "^4.12.0",
-  "react-big-calendar": "^1.19.4",
-  "@react-three/fiber": "^9.3.0",
-  "@react-three/drei": "^10.6.1",
-  "date-fns": "^4.1.0"
-}
-```
-
----
-
-## 🎨 UI/UX Features
-
-### Student Interface
-- **Dashboard**: Overview with quick actions
-- **Learning Plans**: Visual month/day structure
-- **Progress Tracking**: Charts and analytics
-- **Quiz Interface**: Clean question display with explanations
-- **Chatbot**: Floating widget with markdown support
-- **Voice Tutor**: One-click call initiation
-- **Social Connections**: OAuth connection status
-
-### Recruiter Interface
-- **Dashboard**: Categorized candidate lists
-- **Candidate Profiles**: Comprehensive view with all data
-- **Job Matching**: AI-powered candidate recommendations
-- **Email Analysis**: Inbox with AI summaries
-- **Interview Scheduler**: Calendar integration
-- **Analytics**: Recruitment metrics and insights
-
-### Design System
-- **Colors**: Blue (#4f8cff) primary, semantic colors for status
-- **Typography**: Inter and Poppins fonts
-- **Components**: Consistent button, card, and form styles
-- **Animations**: Framer Motion for smooth transitions
-- **Responsive**: Mobile-first design approach
-
----
-
-## 🧪 Testing
-
-### Backend Testing
-```python
-# Test learning plan generation
-def test_generate_learning_plan():
-    response = client.post("/learning-plan/generate")
-    assert response.status_code == 200
-    assert "months" in response.json()["plan"]
-
-# Test quiz submission
-def test_submit_quiz():
-    answers = [0, 1, 2, 0, 1]
-    response = client.post(f"/quiz/{plan_id}/{month}/{day}/submit", json=answers)
-    assert "score" in response.json()
-```
-
-### Frontend Testing
-```javascript
-// Test component rendering
-test('renders dashboard', () => {
-  render(<Dashboard />);
-  expect(screen.getByText(/Welcome/i)).toBeInTheDocument();
-});
-
-// Test chatbot interaction
-test('sends message', async () => {
-  render(<Chatbot />);
-  fireEvent.click(screen.getByRole('button'));
-  fireEvent.change(input, { target: { value: 'Hello' } });
-  fireEvent.click(sendButton);
-  await waitFor(() => expect(screen.getByText(/Hello/i)).toBeInTheDocument());
-});
-```
-
----
-
-## 🚧 Future Enhancements
-
-### Planned Features
-1. **Mobile Apps**: Native iOS and Android applications
-2. **Video Lessons**: Integrated video content with progress tracking
-3. **Peer Learning**: Student collaboration and study groups
-4. **Gamification**: Badges, streaks, and leaderboards
-5. **Advanced Analytics**: ML-powered learning insights
-6. **Multi-language**: Support for multiple languages
-7. **Offline Mode**: Progressive Web App capabilities
-8. **Live Tutoring**: Real-time video sessions with tutors
-
-### Technical Improvements
-1. **Microservices**: Split into smaller services
-2. **GraphQL**: Replace REST with GraphQL
-3. **Redis Caching**: Improve performance
-4. **WebSockets**: Real-time updates
-5. **Kubernetes**: Container orchestration
-6. **CI/CD**: Automated testing and deployment
-
----
-
-## 📝 License
-
-This project was built during a 6-day intensive hackathon sprint.
-
----
-
-## 🙏 Acknowledgments
-
-**Technologies:**
-- **Google Gemini AI**: Advanced language processing and content generation
-- **Composio**: Individual OAuth integrations for 8 services
-- **Twilio**: Voice communication infrastructure
-- **FastAPI**: Modern Python web framework
-- **React**: Frontend user interface library
-- **PostgreSQL**: Robust relational database
-
-**Special Thanks:**
-- Google for Gemini AI API
-- Composio for OAuth platform
-- Twilio for voice services
-- Open source community
-
----
-
-<div align="center">
-
-## 🌟 Built in 6 Days
-
-**EduAI represents the convergence of AI-powered education and intelligent recruitment**
-
-**43 React Components • 10 Backend Modules • 15 Database Models • 8 OAuth Integrations**
-
-</div>
