@@ -9,5 +9,5 @@ async def main():
 
 
 @app.get("/greet/{name}")
-async def greet(name: str) -> dict:
-    return {"message" : f"welcome {name}"}
+async def greet(name: str,age : int) -> dict:
+    return {"message" : f"welcome {name} your age is {age}"}
