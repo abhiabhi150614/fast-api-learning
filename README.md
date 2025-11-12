@@ -44,6 +44,22 @@ EduAI is a comprehensive dual-user ecosystem that revolutionizes both learning a
 
 ## 🏛️ Complete System Architecture
 
+### 🎯 Platform at a Glance
+
+```mermaid
+graph LR
+    STUDENT[👨‍🎓 Student Platform] --> AI[🤖 AI Engine]
+    RECRUITER[💼 Recruiter Platform] --> AI
+    AI --> SERVICES[☁️ Cloud Services]
+    AI --> DB[(💾 Database)]
+    SERVICES --> INTEGRATIONS[🔗 8 OAuth Services]
+    
+    style STUDENT fill:#4CAF50
+    style RECRUITER fill:#FF5722
+    style AI fill:#2196F3
+    style SERVICES fill:#9C27B0
+```
+
 ### Enterprise-Level Architecture Overview
 
 ```mermaid
@@ -267,32 +283,32 @@ graph LR
 
 ```mermaid
 graph TB
-    subgraph "User & Authentication Models"
-        USER[User Model<br/>id, email, google_name<br/>user_type, auth_tokens<br/>created_at, updated_at]
-        ONBOARD[Onboarding Model<br/>user_id, name, grade<br/>career_goal, skills<br/>time_commitment<br/>learning_style]
+    subgraph AUTH["User & Authentication"]
+        USER[User Model]
+        ONBOARD[Onboarding Model]
     end
     
-    subgraph "Learning Platform Models"
-        LEARNING_PLAN[LearningPlan Model<br/>user_id, total_months<br/>current_month, current_day<br/>plan_data (JSONB)<br/>status, progress]
-        LEARNING_PATH[LearningPath Model<br/>user_id, month_number<br/>days (JSONB)<br/>status, completion]
-        DAY_DETAIL[DayDetail Model<br/>path_id, day_number<br/>concept, overview<br/>sections (JSONB)<br/>resources, checklist]
-        QUIZ[Quiz Model<br/>day_detail_id<br/>questions (JSONB)<br/>required_score<br/>created_at]
-        QUIZ_SUB[QuizSubmission Model<br/>quiz_id, user_id<br/>answers (JSONB)<br/>score, passed<br/>attempt_number<br/>question_results]
+    subgraph LEARN["Learning Platform"]
+        LEARNING_PLAN[LearningPlan]
+        LEARNING_PATH[LearningPath]
+        DAY_DETAIL[DayDetail]
+        QUIZ[Quiz]
+        QUIZ_SUB[QuizSubmission]
     end
     
-    subgraph "Recruiter Platform Models"
-        JOB[Job Model<br/>recruiter_id, title<br/>description, skills<br/>experience_level<br/>salary_range, status]
-        EMAIL_APP[EmailApplication Model<br/>recruiter_id, sender<br/>subject, content<br/>resume_text, skills<br/>priority_score]
-        SHORTLIST[Shortlist Model<br/>recruiter_id, user_id<br/>job_id, match_score<br/>status, notes<br/>source, created_at]
+    subgraph REC["Recruiter Platform"]
+        JOB[Job]
+        EMAIL_APP[EmailApplication]
+        SHORTLIST[Shortlist]
     end
     
-    subgraph "AI & Analytics Models"
-        PROFILE_SUM[StudentProfileSummary<br/>user_id, summary_text<br/>skills_tags, interests<br/>profile_data (JSONB)<br/>last_updated]
-        CANDIDATE_VEC[CandidateVector Model<br/>user_id, embedding<br/>metadata (JSONB)<br/>created_at]
+    subgraph AI["AI & Analytics"]
+        PROFILE_SUM[StudentProfile]
+        CANDIDATE_VEC[CandidateVector]
     end
     
-    subgraph "Content Management Models"
-        YOUTUBE_SCHED[YouTubeSchedule Model<br/>user_id, video_url<br/>title, description<br/>scheduled_time<br/>status, playlist_id]
+    subgraph CONTENT["Content Management"]
+        YOUTUBE_SCHED[YouTubeSchedule]
     end
     
     USER --> ONBOARD
@@ -315,67 +331,62 @@ graph TB
     style CANDIDATE_VEC fill:#9C27B0
 ```
 
+**Model Details:**
+- **User**: Authentication, profile, user type
+- **Onboarding**: Skills, goals, preferences, learning style
+- **LearningPlan**: Multi-year structure, current progress
+- **LearningPath**: Monthly paths with 30 days
+- **DayDetail**: Daily content, sections, resources, checklist
+- **Quiz**: 15 AI-generated questions with explanations
+- **QuizSubmission**: Answers, scores, attempts, detailed results
+- **Job**: Postings, requirements, experience level
+- **EmailApplication**: Resume parsing, AI analysis, priority scoring
+- **Shortlist**: Match scores, status tracking, notes
+- **StudentProfile**: AI summaries, skills tags, interests
+- **CandidateVector**: Embeddings for similarity search
+
 ### AI Function Calling System (8 Tools)
 
 ```mermaid
 graph TB
-    subgraph "AI Chatbot with Function Calling"
-        USER_QUERY[User Query<br/>Natural Language<br/>Context-Aware]
-        GEMINI_FC[Gemini Function Calling<br/>Tool Selection<br/>Parameter Extraction<br/>Execution Planning]
-        TOOL_EXECUTOR[Tool Executor<br/>Validation<br/>Execution<br/>Result Processing]
-    end
+    USER_QUERY[User Query] --> GEMINI_FC[Gemini AI]
+    GEMINI_FC --> TOOL_EXECUTOR[Tool Executor]
     
-    subgraph "Google Drive Tools"
-        T1[get_drive_notes<br/>Retrieve Notes<br/>File Search<br/>Content Reading]
-        T2[update_drive_notes<br/>Save Content<br/>File Creation<br/>Append Operations]
-    end
+    TOOL_EXECUTOR --> T1[Drive: Get Notes]
+    TOOL_EXECUTOR --> T2[Drive: Update Notes]
+    TOOL_EXECUTOR --> T3[YouTube: Search]
+    TOOL_EXECUTOR --> T4[YouTube: Create Playlist]
+    TOOL_EXECUTOR --> T5[YouTube: Add Video]
+    TOOL_EXECUTOR --> T6[Twilio: Voice Call]
+    TOOL_EXECUTOR --> T7[LinkedIn: Post]
+    TOOL_EXECUTOR --> T8[Context: Query]
     
-    subgraph "YouTube Tools"
-        T3[search_youtube_videos<br/>Video Search<br/>Relevance Ranking<br/>Metadata Extraction]
-        T4[create_youtube_playlist<br/>Playlist Creation<br/>Privacy Settings<br/>Description Setup]
-        T5[add_video_to_playlist<br/>Video Addition<br/>Position Management<br/>Duplicate Check]
-    end
+    T1 --> RESULT[AI Response]
+    T2 --> RESULT
+    T3 --> RESULT
+    T4 --> RESULT
+    T5 --> RESULT
+    T6 --> RESULT
+    T7 --> RESULT
+    T8 --> RESULT
     
-    subgraph "Communication Tools"
-        T6[initiate_call<br/>Twilio Voice Call<br/>Context Passing<br/>Call Tracking]
-    end
-    
-    subgraph "Social Media Tools"
-        T7[create_linkedin_post<br/>Post Creation<br/>Content Generation<br/>Professional Formatting]
-    end
-    
-    subgraph "Context Tools"
-        T8[context_query<br/>Learning Position<br/>Progress Data<br/>Current Status]
-    end
-    
-    USER_QUERY --> GEMINI_FC
-    GEMINI_FC --> TOOL_EXECUTOR
-    
-    TOOL_EXECUTOR --> T1
-    TOOL_EXECUTOR --> T2
-    TOOL_EXECUTOR --> T3
-    TOOL_EXECUTOR --> T4
-    TOOL_EXECUTOR --> T5
-    TOOL_EXECUTOR --> T6
-    TOOL_EXECUTOR --> T7
-    TOOL_EXECUTOR --> T8
-    
-    T1 --> GEMINI_FC
-    T2 --> GEMINI_FC
-    T3 --> GEMINI_FC
-    T4 --> GEMINI_FC
-    T5 --> GEMINI_FC
-    T6 --> GEMINI_FC
-    T7 --> GEMINI_FC
-    T8 --> GEMINI_FC
-    
-    GEMINI_FC --> USER_QUERY
+    RESULT --> USER_QUERY
     
     style GEMINI_FC fill:#4CAF50
     style TOOL_EXECUTOR fill:#FF9800
     style T6 fill:#FF5722
     style T7 fill:#2196F3
 ```
+
+**Tool Capabilities:**
+- **get_drive_notes**: Retrieves learning notes from Google Drive
+- **update_drive_notes**: Saves content to Google Drive with auto-creation
+- **search_youtube_videos**: Finds educational videos with relevance ranking
+- **create_youtube_playlist**: Creates playlists with privacy settings
+- **add_video_to_playlist**: Adds videos with duplicate checking
+- **initiate_call**: Triggers Twilio voice calls with context
+- **create_linkedin_post**: Publishes professional posts
+- **context_query**: Provides current learning position and progress
 
 ### Complete Data Flow - Learning Journey
 
@@ -704,47 +715,14 @@ graph TB
 - Sequential progression with 70% quiz pass requirement
 - Adaptive content that evolves based on performance
 
-**Technical Implementation:**
-```python
-# Plan Generation Pipeline (learning_plan.py)
-def generate_learning_plan(user_id):
-    onboarding = get_onboarding_data(user_id)
-    total_years = decide_years(onboarding.grade)  # 1-3 years
-    
-    # AI generates month structure
-    plan_structure = gemini.generate_content(
-        prompt=build_plan_prompt(onboarding, total_years)
-    )
-    
-    # Generate 30 days for first month
-    month_1_days = _generate_days_for_month_via_ai(
-        month=plan_structure.months[0],
-        onboarding=onboarding
-    )
-    
-    # Generate detailed content for day 1
-    day_1_detail = _generate_day_detail_via_ai(
-        month=plan_structure.months[0],
-        day=month_1_days[0],
-        onboarding=onboarding
-    )
-    
-    # Auto-generate quiz for day 1
-    day_1_quiz = _generate_quiz_via_ai(
-        month=plan_structure.months[0],
-        day=month_1_days[0],
-        onboarding=onboarding,
-        num_questions=15
-    )
-    
-    # Create Google Drive folder structure
-    create_drive_structure(user_id, onboarding.name)
-    
-    # Create GitHub learning repository
-    create_github_repo(user_id, onboarding.name)
-    
-    return complete_plan
-```
+**Technical Pipeline:**
+1. Analyze user profile (goals, skills, time commitment)
+2. Generate 1-3 year plan structure with AI
+3. Create 30 days for first month
+4. Generate detailed content for Day 1
+5. Auto-generate 15-question quiz
+6. Create Google Drive folders
+7. Initialize GitHub learning repository
 
 **Day Detail Structure:**
 - **Overview**: Comprehensive description of learning objectives
@@ -765,31 +743,12 @@ def generate_learning_plan(user_id):
 7. **create_linkedin_post**: Publishes to LinkedIn
 8. **context_query**: Provides learning position context
 
-**Implementation (chatbot_tools.py):**
-```python
-class ChatbotTools:
-    def get_tools_schema(self):
-        return [
-            {
-                "name": "get_drive_notes",
-                "description": "Retrieve learning notes from Google Drive",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "file_name": {"type": "string"}
-                    }
-                }
-            },
-            # ... 7 more tools
-        ]
-    
-    def execute_tool(self, function_name, function_args):
-        if function_name == "get_drive_notes":
-            return self._get_drive_notes(**function_args)
-        elif function_name == "search_youtube_videos":
-            return self._search_youtube(**function_args)
-        # ... handle all 8 tools
-```
+**How It Works:**
+- AI analyzes user query and selects appropriate tool
+- Extracts parameters automatically
+- Executes tool with real-time feedback
+- Returns formatted results to user
+- Supports chained tool execution for complex tasks
 
 **Features:**
 - Real-time context awareness of user's current learning position
@@ -808,74 +767,18 @@ class ChatbotTools:
 - Progress gating: Must pass (70%+) to unlock next day
 - Retry mechanism: Regenerates quiz with focus on problem areas after 2 failed attempts
 
-**Implementation (quiz.py):**
-```python
-def submit_quiz(quiz_id, user_id, answers):
-    quiz = get_quiz(quiz_id)
-    
-    # Calculate score
-    correct = 0
-    question_results = []
-    for i, answer in enumerate(answers):
-        is_correct = answer == quiz.questions[i]['correct_index']
-        correct += is_correct
-        question_results.append({
-            'question_index': i,
-            'user_answer': answer,
-            'correct_answer': quiz.questions[i]['correct_index'],
-            'is_correct': is_correct,
-            'explanation': quiz.questions[i]['explanation']
-        })
-    
-    score = (correct / len(answers)) * 100
-    passed = score >= quiz.required_score
-    
-    # Save submission
-    submission = QuizSubmission(
-        quiz_id=quiz_id,
-        user_id=user_id,
-        answers=answers,
-        score=score,
-        passed=passed,
-        question_results=question_results,
-        attempt_number=get_attempt_count(quiz_id, user_id) + 1
-    )
-    
-    if passed:
-        # Mark day complete
-        mark_day_complete(user_id, day_id)
-        # Send success email
-        send_quiz_success_email(user_id, score)
-        # Unlock next day
-        unlock_next_day(user_id)
-    elif submission.attempt_number >= 2:
-        # Regenerate content and quiz
-        regenerate_day_content(day_id)
-        regenerate_quiz(quiz_id)
-    
-    return submission
-```
+**Quiz Flow:**
+1. Student submits answers
+2. System calculates score with detailed per-question analysis
+3. **If passed (≥70%)**: Mark day complete → Send email → Unlock next day
+4. **If failed**: Save attempt → After 2 attempts, regenerate content and quiz
+5. Track all attempts with detailed question results
 
-**Database Schema:**
-```python
-class Quiz:
-    id = Integer
-    day_detail_id = Integer
-    questions = JSONB  # [{question, options, correct_index, explanation}]
-    required_score = Integer  # Default 70%
-    created_at = DateTime
-    
-class QuizSubmission:
-    id = Integer
-    quiz_id = Integer
-    user_id = Integer
-    answers = JSONB
-    question_results = JSONB  # Detailed per-question analysis
-    score = Integer
-    passed = Boolean
-    attempt_number = Integer
-    submitted_at = DateTime
-```
+**Smart Features:**
+- Detailed explanations for each answer
+- Adaptive regeneration after failures
+- Email notifications on success
+- Progress gating ensures mastery
 
 #### 4. Voice Tutoring System (Twilio + Flask)
 
@@ -886,57 +789,14 @@ class QuizSubmission:
 - Smart response generation based on learning context
 - Handles speech input with confidence scoring
 
-**Implementation:**
-```python
-@app.route("/voice", methods=['POST'])
-def voice():
-    # Get learning context from URL parameters
-    user_id = request.values.get('user_id')
-    month = request.values.get('month')
-    day = request.values.get('day')
-    concept = request.values.get('concept')
-    
-    # Get user speech input
-    user_speech = request.values.get('SpeechResult', '')
-    confidence = float(request.values.get('Confidence', 0))
-    
-    # Manage conversation history
-    if user_id not in call_conversations:
-        call_conversations[user_id] = []
-    
-    # Add user message to history
-    call_conversations[user_id].append({
-        'role': 'user',
-        'content': user_speech
-    })
-    
-    # Build context-aware prompt
-    context = f"Student is on Month {month}, Day {day}, learning: {concept}"
-    
-    # Get AI response
-    ai_response = get_ai_response(
-        user_speech, 
-        call_conversations[user_id],
-        context
-    )
-    
-    # Add AI response to history
-    call_conversations[user_id].append({
-        'role': 'assistant',
-        'content': ai_response
-    })
-    
-    # Generate TwiML response
-    response = VoiceResponse()
-    response.say(ai_response, voice='alice')
-    response.gather(
-        input='speech',
-        action='/voice',
-        speechTimeout='auto'
-    )
-    
-    return str(response)
-```
+**Voice AI Flow:**
+1. Twilio receives call and sends webhook to Flask server
+2. System extracts learning context (month, day, concept)
+3. Captures user speech with confidence scoring
+4. Maintains conversation history (last 16 exchanges)
+5. AI generates context-aware response
+6. Converts to speech and sends back to user
+7. Continues conversation loop
 
 **Features:**
 - Parses learning context from URL parameters
@@ -949,200 +809,40 @@ def voice():
 
 **Automated Learning Infrastructure:**
 
-**Google Drive (composio_service.py):**
-```python
-def ensure_drive_folder(user_id, folder_name):
-    # Auto-creates folder structure
-    # EDUAI_NAME_LEARNING_MAIN_PATH/MONTH_X/DAY_Y_NOTES.txt
-    composio_auth.create_drive_folder(user_email, folder_name)
-    
-def create_day_notes(user_id, day, content):
-    composio_auth.create_drive_file(
-        user_email,
-        f"DAY_{day}_NOTES.txt",
-        content
-    )
-```
+**Automated Google Services:**
 
-**Gmail (email_service.py):**
-```python
-def send_quiz_success_email(user_id, score):
-    html_template = f"""
-    <h2>Congratulations! 🎉</h2>
-    <p>You scored {score}% on your quiz!</p>
-    <p>Your next learning day is now unlocked.</p>
-    """
-    
-    composio_auth.send_email(
-        user_email,
-        subject="Quiz Passed - Next Day Unlocked!",
-        body=html_template
-    )
-```
-
-**Calendar (google_services.py):**
-```python
-def create_study_session(user_id, day, duration):
-    composio_auth.create_calendar_event(
-        user_email,
-        summary=f"Study: Day {day}",
-        start_time=datetime.now(),
-        duration_minutes=duration
-    )
-```
-
-**YouTube (youtube_services.py):**
-```python
-def search_and_create_playlist(query, playlist_name):
-    # Search videos
-    videos = composio_auth.search_youtube_videos(
-        user_email,
-        query=query,
-        max_results=10
-    )
-    
-    # Create playlist
-    playlist = composio_auth.create_youtube_playlist(
-        user_email,
-        title=playlist_name,
-        description="AI-curated learning content"
-    )
-    
-    # Add videos to playlist
-    for video in videos:
-        composio_auth.add_video_to_playlist(
-            user_email,
-            playlist_id=playlist['id'],
-            video_id=video['id']
-        )
-```
+- **Drive**: Auto-creates folder structure `EDUAI_NAME/MONTH_X/DAY_Y_NOTES.txt`
+- **Gmail**: Sends HTML email notifications for quiz results and progress
+- **Calendar**: Creates study session events with time estimates
+- **YouTube**: Searches videos, creates playlists, adds curated content
+- **Meet**: Generates interview links with calendar integration
 
 #### 6. Social Media Integration (Composio OAuth)
 
-**LinkedIn (composio_service.py):**
-```python
-def create_learning_post(user_id, topic, achievement):
-    content = f"""
-    🎓 Learning Update
-    
-    Just completed: {topic}
-    Achievement: {achievement}
-    
-    #Learning #AI #EduAI #ContinuousLearning
-    """
-    
-    composio_auth.create_linkedin_post(
-        user_email,
-        content=content
-    )
-```
+**Social Media Automation:**
 
-**GitHub (composio_service.py):**
-```python
-def create_learning_repo(user_id, name):
-    # Background thread for GitHub operations
-    threading.Thread(
-        target=_github_background_task,
-        args=(user_email, name),
-        daemon=True
-    ).start()
-
-def _github_background_task(user_email, name):
-    # Create repository
-    repo = composio_auth.create_github_repo(
-        user_email,
-        repo_name=f"EDUAI_{name}_LEARNING_JOURNEY",
-        description="My AI-powered learning journey"
-    )
-    
-    # Daily commits with notes
-    composio_auth.commit_to_github(
-        user_email,
-        repo_name=repo['name'],
-        file_path=f"notes/day_{day}.md",
-        content=notes,
-        commit_message=f"Day {day}: {concept}"
-    )
-```
-
-**Twitter (composio_service.py):**
-```python
-def share_achievement(user_id, milestone):
-    tweet = f"🎯 Just achieved: {milestone} on @EduAI_Platform! #Learning"
-    
-    composio_auth.create_twitter_post(
-        user_email,
-        content=tweet
-    )
-```
+- **LinkedIn**: AI-generated professional posts about learning progress
+- **GitHub**: Auto-creates `EDUAI_NAME_LEARNING_JOURNEY` repo with daily commits
+- **Twitter**: Shares achievements and milestones
+- **Background Processing**: Non-blocking threaded execution
 
 ### 💼 Recruiter Platform
 
 #### 1. AI-Powered Candidate Matching
 
-**Multi-Factor Analysis (ai_matching.py):**
-```python
-def calculate_ai_match_percentage(job, candidate_profile, user):
-    # Prepare job requirements
-    job_data = {
-        "title": job.title,
-        "description": job.description,
-        "required_skills": job.required_skills,
-        "experience_level": job.experience_level,
-        "location": job.location,
-        "salary_range": job.salary_range,
-        "job_type": job.job_type
-    }
-    
-    # Prepare candidate data
-    candidate_data = {
-        "name": user.google_name,
-        "skills": candidate_profile.skills_tags,
-        "summary": candidate_profile.summary_text,
-        "interests": candidate_profile.interests,
-        "learning_progress": get_learning_progress(user.id),
-        "quiz_scores": get_quiz_scores(user.id),
-        "github_languages": get_github_languages(user.id)
-    }
-    
-    # AI matching prompt
-    prompt = f"""
-Analyze the job-candidate match and provide detailed assessment:
+**AI Matching Process:**
 
-JOB REQUIREMENTS:
-{json.dumps(job_data, indent=2)}
-
-CANDIDATE PROFILE:
-{json.dumps(candidate_data, indent=2)}
-
-Provide analysis in this EXACT JSON format:
-{{
-    "match_percentage": [0-100 integer],
-    "skill_match": [0-100 integer],
-    "experience_match": [0-100 integer],
-    "interest_alignment": [0-100 integer],
-    "learning_commitment": [0-100 integer],
-    "overall_fit": "[Excellent/Good/Fair/Poor]",
-    "strengths": ["strength1", "strength2", "strength3"],
-    "gaps": ["gap1", "gap2"],
-    "recommendation": "[Strong Hire/Consider/Interview/Pass]",
-    "reasoning": "Brief explanation of the match score"
-}}
-
-Evaluate these 6 key factors:
-1. Career goals alignment with job requirements
-2. Current skills match + learning progress
-3. Quiz performance showing commitment
-4. Realistic job performance capability
-5. Education/experience level fit
-6. GitHub practical programming experience
-"""
-    
-    response = chatbot.model.generate_content(prompt)
-    ai_analysis = json.loads(response.text)
-    
-    return ai_analysis
-```
+1. **Data Collection**: Gathers job requirements and candidate profile
+2. **Multi-Factor Analysis**: AI evaluates 6 key dimensions
+   - Career goals alignment
+   - Skills match + learning progress
+   - Quiz performance (commitment indicator)
+   - Job performance capability
+   - Education/experience fit
+   - GitHub practical experience
+3. **Scoring**: Generates 0-100 match percentage
+4. **Explanation**: Provides detailed reasoning, strengths, and gaps
+5. **Recommendation**: Strong Hire / Consider / Interview / Pass
 
 **Scoring Algorithm:**
 - **85-100**: Perfect fit - Strong hire recommendation
@@ -1154,176 +854,41 @@ Evaluate these 6 key factors:
 
 #### 2. Advanced Email Application Management
 
-**Gmail Integration (email_service.py):**
-```python
-def fetch_job_applications(recruiter_id, max_results=50):
-    # Fetch emails with enhanced filtering
-    emails = composio_auth.fetch_gmail_emails(
-        recruiter_email,
-        query="subject:(job application OR resume OR CV) has:attachment",
-        max_results=max_results
-    )
-    
-    applications = []
-    for email in emails:
-        # Calculate priority score
-        priority_score = calculate_priority(email)
-        
-        # AI summarization
-        summary = summarize_email_with_ai(email['content'])
-        
-        # Extract skills from content
-        skills = extract_candidate_skills(email['content'])
-        
-        # Parse PDF resume if attached
-        resume_text = ""
-        if email['attachments']:
-            for attachment in email['attachments']:
-                if attachment['mimeType'] == 'application/pdf':
-                    resume_text = parse_pdf_resume(attachment['data'])
-                    skills.extend(extract_skills_from_resume(resume_text))
-        
-        # Create candidate profile
-        application = EmailApplication(
-            recruiter_id=recruiter_id,
-            sender_email=email['from'],
-            sender_name=extract_name(email['from']),
-            subject=email['subject'],
-            content=email['content'],
-            resume_text=resume_text,
-            skills_extracted=list(set(skills)),
-            ai_summary=summary,
-            priority_score=priority_score,
-            received_at=email['date']
-        )
-        
-        applications.append(application)
-    
-    return applications
+**Email Intelligence Pipeline:**
 
-def calculate_priority(email):
-    score = 0
-    
-    # Urgent keywords
-    urgent_keywords = ['urgent', 'immediate', 'asap', 'priority']
-    if any(kw in email['subject'].lower() for kw in urgent_keywords):
-        score += 10
-    
-    # Has PDF attachment
-    if any(att['mimeType'] == 'application/pdf' for att in email['attachments']):
-        score += 20
-    
-    # Recent email (within 24 hours)
-    if (datetime.now() - email['date']).days < 1:
-        score += 15
-    
-    # Technical keywords
-    tech_keywords = ['developer', 'engineer', 'programmer', 'software']
-    if any(kw in email['content'].lower() for kw in tech_keywords):
-        score += 5
-    
-    return min(score, 100)
-```
+1. **Fetch**: Retrieves job-related emails with attachments
+2. **Priority Scoring**: 
+   - Urgent keywords: +10 points
+   - PDF attachments: +20 points
+   - Recent (24h): +15 points
+   - Technical keywords: +5 points
+3. **AI Analysis**: Summarizes email content with structured format
+4. **Resume Parsing**: Extracts text from PDF attachments
+5. **Skill Extraction**: NLP-based skill identification
+6. **Profile Creation**: Auto-creates candidate profiles
+7. **Bulk Processing**: Handles multiple applications efficiently
 
 #### 3. Interview Management System
 
-**Google Meet Integration (google_meet_service.py):**
-```python
-def schedule_interview(recruiter_id, candidate_id, job_id, datetime_slot):
-    # Check calendar availability
-    is_available = check_calendar_availability(
-        recruiter_email,
-        datetime_slot,
-        duration_minutes=60
-    )
-    
-    if not is_available:
-        return {"error": "Time slot not available"}
-    
-    # Create Google Meet link
-    meet_link = create_google_meet(
-        recruiter_email,
-        summary=f"Interview: {job.title}",
-        start_time=datetime_slot,
-        duration_minutes=60,
-        attendees=[candidate_email]
-    )
-    
-    # Send calendar invite
-    send_calendar_invite(
-        recruiter_email,
-        candidate_email,
-        event_details={
-            'summary': f"Interview: {job.title}",
-            'start': datetime_slot,
-            'duration': 60,
-            'meet_link': meet_link,
-            'description': f"Interview for {job.title} position"
-        }
-    )
-    
-    # Send email notification
-    send_interview_email(
-        candidate_email,
-        job_title=job.title,
-        interview_time=datetime_slot,
-        meet_link=meet_link
-    )
-    
-    # Update shortlist status
-    update_shortlist_status(
-        recruiter_id,
-        candidate_id,
-        job_id,
-        status='interview_scheduled',
-        interview_datetime=datetime_slot,
-        meet_link=meet_link
-    )
-    
-    return {
-        "success": True,
-        "meet_link": meet_link,
-        "interview_time": datetime_slot
-    }
-```
+**Interview Scheduling Flow:**
+
+1. **Availability Check**: Verifies recruiter's calendar
+2. **Meet Link Creation**: Generates Google Meet link
+3. **Calendar Invite**: Sends to both recruiter and candidate
+4. **Email Notification**: Sends interview details to candidate
+5. **Status Update**: Updates shortlist with interview info
+6. **Tracking**: Maintains complete interview lifecycle
 
 #### 4. Advanced Recruiter AI Assistant
 
-**Comprehensive Context (recruiter.py):**
-```python
-@router.post("/chat")
-def recruiter_chat(message: str, recruiter_id: int):
-    # Gather comprehensive context
-    context = {
-        "all_students": get_all_student_profiles(),
-        "recent_applications": get_recent_applications(recruiter_id),
-        "active_jobs": get_active_jobs(recruiter_id),
-        "shortlisted_candidates": get_shortlisted(recruiter_id),
-        "interview_schedule": get_interviews(recruiter_id),
-        "analytics": get_recruitment_analytics(recruiter_id)
-    }
-    
-    # Build context-aware prompt
-    prompt = f"""
-You are an AI recruitment assistant with access to:
-- {len(context['all_students'])} student profiles with learning data
-- {len(context['recent_applications'])} recent email applications
-- {len(context['active_jobs'])} active job postings
-- {len(context['shortlisted_candidates'])} shortlisted candidates
-- {len(context['interview_schedule'])} scheduled interviews
+**AI Assistant Context:**
 
-User Query: {message}
-
-Context Data:
-{json.dumps(context, indent=2)}
-
-Provide helpful, data-driven insights and recommendations.
-"""
-    
-    response = chatbot.get_response(prompt, recruiter_id)
-    
-    return response
-```
+- All student profiles with learning data
+- Recent email applications with AI analysis
+- Active job postings and requirements
+- Shortlisted candidates with match scores
+- Interview schedule and status
+- Comprehensive recruitment analytics
 
 **Capabilities:**
 - Natural language candidate search
