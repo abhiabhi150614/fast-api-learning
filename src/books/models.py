@@ -18,3 +18,20 @@ class Book(SQLModel, table=True):
     language:str
     created_at: date_time
     updated_at: date_time
+
+
+
+class User(SQLModel, table=True):
+    uid: uuid.UUID = Field(
+        sa_column= Column(
+            primary_key=True,
+            default=uuid.uuid4(),
+            index=True,
+            nullable=False
+        )
+    )
+    username: str
+    email: str
+    password: str
+    created_at: date_time
+    updated_at: date_time
