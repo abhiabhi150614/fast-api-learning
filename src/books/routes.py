@@ -34,6 +34,15 @@ def get_particular_book(id : int):
             return book
     raise HTTPException(status_code=404,detail="Book not found")
 
+
+
+@book_router.get("/books/{name}",response_model = Book)
+def get_book_name(name : str):
+    for book in books:
+        if(book["title"] == name):
+            return book
+    raise HTTPException(status_code=404, detail="Book not found")
+
 @book_router.patch("/books",response_model = Book)
 def update_the_book(bookdata:UpdateBook,id : int):
     for book in books:
